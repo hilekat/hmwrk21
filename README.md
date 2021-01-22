@@ -1,63 +1,135 @@
-## React Google Books Search
+# Google Books Search
 
-An application created using the MERN stack and allows users to search for books via the Google Books API. Search results are dynamically rendered in the UI and users have the option to save and/or delete books.
+### Overview
 
-View the deployed application at: <b><a href="https://search-google-books-api.herokuapp.com/" target="_blank">https://search-google-books-api.herokuapp.com/</a></b>
+In this activity, you'll create a new React-based Google Books Search app. This assignment requires you to create React components, work with helper/util functions, and utilize React lifecycle methods to query and display books based on user searches. You'll also use Node, Express and MongoDB so that users can save books to review or purchase later.
 
-### Technologies Used
- - React JS
- - MongoDB
- - Mongoose
- - Express JS
- - Node
- - Axios
+### Commits
 
-## How it works
+Having an active and healthy commit history on GitHub is important for your future job search. It is also extremely important for making sure your work is saved in your repository. If something breaks, committing often ensures you are able to go back to a working version of your code.
 
-1. Users are first directed to the `Home` page where they can search for any book. Book information is retrived via the publicly available Google Books API.
+* Committing often is a signal to employers that you are actively working on your code and learning.
 
-2. Upon searching for a book, users will see a list of relevant results. They can click `save` to save the book to the `Saved` page. In the back end, the book is saved to the Mongo database.
+  * We use the mantra “commit early and often.”  This means that when you write code that works, add it and commit it!
 
-3. Users can save as many books as they want. If they then go to the `Saved` page, they'll not only see books that have been saved by them, but also previous visitor's saved books (it's basically a shared space of saved books).
+  * Numerous commits allow you to see how your app is progressing and give you a point to revert to if anything goes wrong.
 
-4. In either the `Home` or `Saved` pages, a user can click on the `View Book` button. This will redirect them to the Google Books store page where they can either purchase or read a preview of the book.
+* Be clear and descriptive in your commit messaging.
 
-5. If a user wants to remove a saved book from the list, they may click the `Delete` button to remove the book from the page. In the back end, this deletes the document from the Mongo database.
+  * When writing a commit message, avoid vague messages like "fixed." Be descriptive so that you and anyone else looking at your repository knows what happened with each commit.
 
-#### Search for, save, and delete books:   
+* We would like you to have well over 200 commits by graduation, so commit early and often!
 
-![Google Books Search](https://user-images.githubusercontent.com/52802240/77485425-55f33b00-6dea-11ea-986c-17e9e4572261.gif)
+* Deploy this application using Heroku, follow our guide on [deploying MERN applications to Heroku](../04-Important/MERNHerokuDeploy.md) to do so.
 
----
+### Submission on BCS
 
-## Installation and Setup Instructions
+* **Please submit both the deployed Heroku link to your homework AND the link to the Github Repository!**
 
+### Instructions
 
-If you'd like to view the app locally, you may clone down this repository. You will need `node`, `npm`, and `MongoDB` installed globally on your machine.  
+* This application requires at minimum 2 pages, check out the following mockup images for each page:
 
-Installation:
+  * [Search](Search.png) - User can search for books via the Google Books API and render them here. User has the option to "View" a book, bringing them to the book on Google Books, or "Save" a book, saving it to the Mongo database.
 
-`npm install`  
+  * [Saved](Saved.png) - Renders all books saved to the Mongo database. User has an option to "View" the book, bringing them to the book on Google Books, or "Delete" a book, removing it from the Mongo database.
 
-To Start Server:
+1. Start by using the [01-Ins_Mern/create-react-express](../01-Activities/01-Ins_Mern/create-react-express) example as a base for your application.
 
-`npm start`  
+2. Add code to connect to a MongoDB database named `googlebooks` using the mongoose npm package.
 
-To Visit App:
+3. Using mongoose, then create a Book schema.
 
-`localhost:3000`  
+4. At a minimum, books should have each of the following fields:
 
----
+* `title` - Title of the book from the Google Books API
 
-## Reflection
+* `authors` - The books's author(s) as returned from the Google Books API
 
-This was a week long project I built during the final month of University of Washington's coding bootcamp. It was a culmination of much of what was taught in the program. Project goals included creating a functional React app and tying that together with a backend database.
+* `description` - The book's description as returned from the Google Books API
 
-I began this project with the `create-react-app` boilerplate and eventually added other technologies such as `react-router-dom`. One of the main challenges I ran into was manipulating state with ternery operators, but thankfully I now feel comfortable with it. 
+* `image` - The Book's thumbnail image as returned from the Google Books API
 
-At the end of the day, the technologies implemented in this project are React, React-Router, Express, MongoDB, Mongoose, JSX, and CSS, and Node. Creating this app proved to be a great challenge for me. I'm proud of what it is at its current state. 
+* `link` - The Book's information link as returned from the Google Books API
 
-In the future, I plan on adding authentication so that users can only view and delete books that they've saved as opposed to everyone's. This will add a privacy aspect that some users might prefer.
+* Creating `documents` in your `books` collection similar to the following:
 
+    ```js
+    {
+      authors: ["Suzanne Collins"]
+      description: "Set in a dark vision of the near future, a terrifying reality TV show is taking place. Twelve boys and twelve girls are forced to appear in a live event called The Hunger Games. There is only one rule: kill or be killed. When sixteen-year-old Katniss Everdeen steps forward to take her younger sister's place in the games, she sees it as a death sentence. But Katniss has been close to death before. For her, survival is second nature."
+      image: "http://books.google.com/books/content?id=sazytgAACAAJ&printsec=frontcover&img=1&zoom=1&source=gbs_api"
+      link: "http://books.google.com/books?id=sazytgAACAAJ&dq=title:The+Hunger+Games&hl=&source=gbs_api"
+      title: "The Hunger Games"
+    }
+    ```
 
-View the deployed application at: <b><a href="https://search-google-books-api.herokuapp.com/" target="_blank">https://search-google-books-api.herokuapp.com/</a></b>
+5. Create a layout similar to the mockups displayed above. This should be a SPA (Single Page Application) that uses [`react-router-dom`](https://github.com/reactjs/react-router) to navigate, hide and show your React components without changing the route within Express.
+
+* The layout should include at least two React Components for each page `Search` and `Saved`.
+
+* Feel free to try out alternative CSS framework to Bootstrap.
+
+6. Add the following Express routes for your app:
+
+* `/api/books` (get) - Should return all saved books as JSON.
+
+* `/api/books` (post) - Will be used to save a new book to the database.
+
+* `/api/books/:id` (delete) - Will be used to delete a book from the database by Mongo `_id`.
+
+* `*` (get) - Will load your single HTML page in `client/build/index.html`. Make sure you have this _after_ all other routes are defined.
+
+* Deploy your application to Heroku once complete. **You must use Create React App** and current versions of React and React-Router-Dom for this assignment.
+
+- - -
+
+### Bonus Live Updates to Saved Books
+
+* Use React routing and [socket.io](http://socket.io) to create a notification or a component that triggers whenever a user saves an book. Your message should include the title of the saved book.
+
+  * Say you have multiple browsers open, each one visiting your site. If you save an book in one browser, then all of your browsers should notify you that a new book was saved.
+
+  * [Socket.io NPM package](https://www.npmjs.com/package/socket.io)
+
+### Reminder: Submission on BCS
+
+* **This assignment must be deployed.** * Please submit both the deployed Heroku link to your homework AND the link to the Github Repository!
+
+- - -
+
+### Minimum Requirements
+
+Attempt to complete homework assignment as described in instructions. If unable to complete certain portions, please pseudocode these portions to describe what remains to be completed. Hosting on Heroku and adding a README.md are required for this homework. In addition, add this homework to your portfolio, more information can be found below.
+
+- - -
+
+### Create a README.md
+
+Add a `README.md` to your repository describing the project. Here are some resources for creating your `README.md`. Here are some resources to help you along the way:
+
+* [About READMEs](https://help.github.com/articles/about-readmes/)
+
+* [Mastering Markdown](https://guides.github.com/features/mastering-markdown/)
+
+- - -
+
+### Add To Your Portfolio
+
+After completing the homework please add the piece to your portfolio. Make sure to add a link to your updated portfolio in the comments section of your homework so the TAs can easily ensure you completed this step when they are grading the assignment. To receive an 'A' on any assignment, you must link to it from your portfolio.
+
+- - -
+
+### Hosting on Heroku
+
+Now that we have a backend to our applications, we use Heroku for hosting. Please note that while **Heroku is free**, it will request credit card information if you have more than 5 applications at a time or are adding a database.
+
+Please see [Heroku’s Account Verification Information](https://devcenter.heroku.com/articles/account-verification) for more details.
+
+- - -
+
+### One More Thing
+
+If you have any questions about this project or the material we have covered, please post them in the community channels in slack so that your fellow developers can help you! If you're still having trouble, you can come to office hours for assistance from your instructor and TAs.
+
+**Good Luck!**
