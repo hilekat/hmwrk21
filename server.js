@@ -13,8 +13,7 @@ if (process.env.NODE_ENV === "production") {
 
 app.use(routes);
 
-var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/googlebooks";
-
+//having mongo issues add lateerr
 mongoose.connect(MONGODB_URI, {
   useUnifiedTopology: true,
   useNewUrlParser: true
